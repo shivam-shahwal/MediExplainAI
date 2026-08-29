@@ -536,9 +536,11 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`MediExplain AI server running on http://0.0.0.0:${PORT}`);
-  });
 }
 
-startServer();
+// Start server only when running locally
+if (!process.env.VERCEL) {
+  startServer();
+}
+
+export default app;
