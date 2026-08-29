@@ -1,0 +1,44 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile associated with email and account settings",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "emailVerified": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["email", "createdAt"]
+    },
+    "ReportHistory": {
+      "title": "ReportHistory",
+      "description": "Saved analyzed report history belonging to the user",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "fileName": { "type": "string" },
+        "fileType": { "type": "string" },
+        "analyzedAt": { "type": "string" },
+        "testCount": { "type": "number" },
+        "language": { "type": "string" },
+        "simpleSummary": { "type": "string" },
+        "reportInfo": { "type": "array" },
+        "testExplanations": { "type": "array" },
+        "pageCountNote": { "type": "string" }
+      },
+      "required": ["userId", "analyzedAt", "reportInfo", "testExplanations", "simpleSummary"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "entity": "UserProfile",
+      "description": "Individual user profile containing basic metadata"
+    },
+    "users/{userId}/reports/{reportId}": {
+      "entity": "ReportHistory",
+      "description": "Collection of saved report analyses for a specific user"
+    }
+  }
+}
