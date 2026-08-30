@@ -181,26 +181,54 @@ function MainAppContent() {
         body: formData,
       });
 
-      const data: ReportAnalysisResult = await response.json();
+      let data: any = null;
+      const contentType = response.headers.get("content-type") || "";
+      if (contentType.includes("application/json")) {
+        try {
+          data = await response.json();
+        } catch (jsonErr) {
+          console.error("Failed to parse JSON response:", jsonErr);
+          data = null;
+        }
+      } else {
+        const textResponse = await response.text();
+        console.error("Non-JSON API response received:", response.status, textResponse);
+      }
 
       if (!response.ok) {
+        const errorMsg =
+          data?.message ||
+          (response.status === 404
+            ? (language === "hi"
+                ? "API एंडपॉइंट नहीं मिला (404)। कृपया सर्वर कॉन्फ़िगरेशन जांचें।"
+                : "API endpoint not found (404). Please verify the server route configuration.")
+            : response.status === 413
+            ? (language === "hi"
+                ? "फ़ाइल का आकार बहुत बड़ा है।"
+                : "File is too large for the server.")
+            : (language === "hi"
+                ? `सर्वर त्रुटि (${response.status})। कृपया पुन: प्रयास करें।`
+                : `Server error (${response.status}). Please try again.`));
+
         setError({
-          type: (data as any).type || "server_error",
-          message:
-            (data as any).message ||
-            (language === "hi"
-              ? "रिपोर्ट का विश्लेषण करते समय कुछ गलत हो गया। कृपया पुन: प्रयास करें।"
-              : "Something went wrong while analyzing the report. Please try again."),
+          type: (data as any)?.type || "server_error",
+          message: errorMsg,
         });
         setIsAnalyzing(false);
         return;
       }
 
-      if (data.unclear) {
+      if (!data) {
+        throw new Error("Invalid response format received from server.");
+      }
+
+      const result = data as ReportAnalysisResult;
+
+      if (result.unclear) {
         setError({
           type: "unclear_content",
           message:
-            data.unclearMessage ||
+            result.unclearMessage ||
             (language === "hi"
               ? "दस्तावेज़ की फ़ोटो धुंधली या अस्पष्ट थी। कृपया अधिक स्पष्ट फ़ोटो या PDF अपलोड करें।"
               : "The document was blurry, cut off, or not a recognizable lab report. Please upload a clearer photo or PDF."),
@@ -210,19 +238,19 @@ function MainAppContent() {
       }
 
       // Populate file metadata
-      data.analyzedFileName = selectedFile.name;
-      data.analyzedFileType = selectedFile.type.includes("pdf") || selectedFile.name.toLowerCase().endsWith(".pdf") ? "pdf" : "image";
-      data.analyzedAt = new Date().toISOString();
-      data.language = language;
+      result.analyzedFileName = selectedFile.name;
+      result.analyzedFileType = selectedFile.type.includes("pdf") || selectedFile.name.toLowerCase().endsWith(".pdf") ? "pdf" : "image";
+      result.analyzedAt = new Date().toISOString();
+      result.language = language;
 
-      setAnalysisResult(data);
+      setAnalysisResult(result);
       setActiveView("results");
 
       // If user is logged in, automatically save the completed report to Firestore history
       if (currentUser) {
         try {
-          const reportId = await saveReportToHistory(currentUser.uid, data, language);
-          data.id = reportId;
+          const reportId = await saveReportToHistory(currentUser.uid, result, language);
+          result.id = reportId;
           setIsSavedInHistory(true);
         } catch (err) {
           console.error("Failed to persist report to history:", err);
@@ -230,12 +258,15 @@ function MainAppContent() {
         }
       }
     } catch (err: any) {
+      console.error("Analysis request failed:", err);
       setError({
         type: "server_error",
         message:
-          language === "hi"
-            ? "नेटवर्क कनेक्शन समस्या या सर्वर त्रुटि। कृपया अपना इंटरनेट जांचें और पुन: प्रयास करें।"
-            : "Network connection issue or server failure. Please check your connection and try again.",
+          err?.message && !err.message.includes("fetch") && !err.message.includes("JSON")
+            ? err.message
+            : (language === "hi"
+                ? "नेटवर्क कनेक्शन समस्या या सर्वर त्रुटि। कृपया अपना इंटरनेट जांचें और पुन: प्रयास करें।"
+                : "Network connection issue or server failure. Please check your connection and try again."),
       });
     } finally {
       setIsAnalyzing(false);

@@ -160,12 +160,12 @@ function getGeminiClient(): GoogleGenAI {
 app.use(express.json({ limit: "20mb" }));
 
 // Health check route
-app.get("/api/health", (req: Request, res: Response) => {
+app.get(["/api/health", "/health", "/"], (req: Request, res: Response) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
 // Analyze report endpoint
-app.post("/api/analyze-report", upload.single("file"), async (req: Request, res: Response): Promise<void> => {
+app.post(["/api/analyze-report", "/analyze-report"], upload.single("file"), async (req: Request, res: Response): Promise<void> => {
   try {
     const clientIp = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.ip || "127.0.0.1";
 
