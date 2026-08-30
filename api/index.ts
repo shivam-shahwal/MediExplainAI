@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import path from "path";
 import multer from "multer";
 import { GoogleGenAI, Type } from "@google/genai";
-import { PDFParse } from "pdf-parse";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -250,36 +249,25 @@ app.post(["/api/analyze-report", "/analyze-report"], upload.single("file"), asyn
           : "Please analyze this uploaded medical report image. The user has selected ENGLISH. Generate a detailed educational explanation for EVERY test detected in the report, including tests within the reference range / normal range. Do not omit normal-range tests. For every test provide whatItMeasures and whyMeasured. Provide foodSources ONLY for tests that are 'Above Range' or 'Below Range' where a direct, meaningful dietary relationship exists (such as iron for low hemoglobin). Set foodSources strictly to null for 'Within Range' tests and non-dietary tests (such as MPV, P-LCR, Platelets, WBC, ESR, etc.) without writing generic filler. You MUST provide ALL explanatory text entirely in clear, simple English. Do NOT use Hindi. Keep testName, value, and referenceRange exactly as written in the report.",
       });
     } else if (isPdf) {
-      // PDF Processing logic
+      // Native Multimodal PDF Processing
       const MAX_PDF_PAGES = 8;
-      let extractedText = "";
       let totalPages = 1;
 
       try {
-        const parser = new PDFParse({ data: file.buffer });
-        const textResult = await parser.getText({ first: MAX_PDF_PAGES });
-        extractedText = textResult.text ? textResult.text.trim() : "";
-        const infoResult = await parser.getInfo();
-        totalPages = infoResult.total || 1;
-        await parser.destroy();
-      } catch (parseErr) {
-        // If pdf-parse has issues, we fall back to multimodal PDF input
-        console.warn("PDF text parse notice, proceeding with native PDF processing");
+        // Safe pure-string page count check without native/DOM dependencies
+        const pdfHeaderStr = file.buffer.toString("latin1");
+        const pageMatches = pdfHeaderStr.match(/\/Type\s*\/Page\b/g);
+        if (pageMatches && pageMatches.length > 0) {
+          totalPages = pageMatches.length;
+        }
+      } catch {
+        totalPages = 1;
       }
 
       if (totalPages > MAX_PDF_PAGES) {
         pageCountNote = requestedLanguage === "hi"
           ? `इस दस्तावेज़ में ${totalPages} पृष्ठ हैं। केवल पहले ${MAX_PDF_PAGES} पृष्ठों का विश्लेषण किया गया है।`
           : `This document contains ${totalPages} pages. Only the first ${MAX_PDF_PAGES} pages were analyzed.`;
-      }
-
-      // If text was successfully extracted and is rich, pass extracted text as well as PDF inlineData
-      if (extractedText.length > 50) {
-        contents.push({
-          text: requestedLanguage === "hi"
-            ? `यहाँ अपलोड किए गए PDF दस्तावेज़ से निकाला गया टेक्स्ट है (विश्लेषण किए गए पृष्ठ: ${Math.min(totalPages, MAX_PDF_PAGES)}):\n\n${extractedText}\n\nइसके अतिरिक्त दृश्य सत्यापन के लिए बाइनरी दस्तावेज़ नीचे संलग्न है।`
-            : `Here is the extracted text from the uploaded PDF document (pages analyzed: ${Math.min(totalPages, MAX_PDF_PAGES)}):\n\n${extractedText}\n\nIn addition, the binary document is attached below for visual verification.`,
-        });
       }
 
       contents.push({
