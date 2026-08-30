@@ -161,7 +161,11 @@ app.use(express.json({ limit: "20mb" }));
 
 // Health check route
 app.get(["/api/health", "/health", "/"], (req: Request, res: Response) => {
-  res.json({ status: "ok", timestamp: new Date().toISOString() });
+  res.json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    hasGeminiKey: Boolean(process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || process.env.API_KEY),
+  });
 });
 
 // Analyze report endpoint
