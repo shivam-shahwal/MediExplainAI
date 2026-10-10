@@ -150,23 +150,24 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
   return (
     <div className={`w-full space-y-6 ${language === "hi" ? "font-hindi" : ""}`}>
       {/* Primary Card */}
-      <div className="bg-white rounded-xl border border-[#E2E8F0] shadow-xs overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
         <div className="p-6 sm:p-8">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-[#CCFBF1] text-[#0F766E] text-[11px] font-semibold mb-3">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-[#008278] border border-teal-200/80 text-xs font-semibold mb-3.5 shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-[#008278] animate-pulse shrink-0" />
+              <Sparkles className="w-3.5 h-3.5 text-[#008278]" />
               <span>{t.aiBadge}</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#1E293B] leading-snug">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#081D2E] leading-snug">
               {t.uploadHeadline}
             </h2>
-            <p className="mt-1.5 text-xs sm:text-sm text-[#64748B] leading-relaxed">
+            <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
               {t.uploadSubheadline}
             </p>
           </div>
 
           {/* Upload Box Container */}
-          <div className="mt-6">
+          <div className="mt-6 sm:mt-7">
             <input
               ref={fileInputRef}
               type="file"
@@ -192,30 +193,30 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onClick={() => fileInputRef.current?.click()}
-                className={`border-2 border-dashed rounded-lg p-8 sm:p-10 text-center transition-all cursor-pointer ${
+                className={`border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center transition-all cursor-pointer group ${
                   isDragging
-                    ? "border-[#0D9488] bg-[#F0FDFA] scale-[0.99]"
-                    : "border-[#CBD5E1] hover:border-[#0D9488] bg-[#F8FAFC] hover:bg-[#F0FDFA]/40"
+                    ? "border-[#008278] bg-teal-50/70 scale-[0.99] shadow-inner"
+                    : "border-slate-300 hover:border-[#008278] bg-slate-50/60 hover:bg-teal-50/30"
                 }`}
               >
-                <div className="w-14 h-14 mx-auto rounded-xl bg-[#CCFBF1] text-[#0D9488] flex items-center justify-center mb-3">
-                  <UploadCloud className="w-7 h-7" />
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-teal-50 text-[#008278] border border-teal-100 flex items-center justify-center mb-3.5 shadow-2xs group-hover:scale-105 group-hover:bg-teal-100/70 transition-all">
+                  <UploadCloud className="w-8 h-8" />
                 </div>
-                <h3 className="text-sm sm:text-base font-semibold text-[#1E293B]">
+                <h3 className="text-sm sm:text-base font-semibold text-[#081D2E]">
                   {t.dragAndDrop}{" "}
-                  <span className="text-[#0D9488] underline underline-offset-2">{t.browse}</span>
+                  <span className="text-[#008278] underline underline-offset-4 decoration-[#008278]/40 hover:decoration-[#008278]">{t.browse}</span>
                 </h3>
-                <p className="mt-1.5 text-xs text-[#475569] font-medium">
+                <p className="mt-1.5 text-xs text-slate-500 font-medium">
                   {t.acceptedFilesInfo}
                 </p>
 
                 {/* Action Buttons inside Dropzone */}
-                <div className="mt-5 flex flex-wrap items-center justify-center gap-3" onClick={(e) => e.stopPropagation()}>
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-3" onClick={(e) => e.stopPropagation()}>
                   <button
                     type="button"
                     id="choose-file-btn"
                     onClick={() => fileInputRef.current?.click()}
-                    className="px-4 py-2 rounded-lg bg-[#0D9488] hover:bg-[#0F766E] text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center gap-2 transition-colors cursor-pointer"
+                    className="px-4.5 py-2.5 rounded-xl bg-[#008278] hover:bg-[#007068] active:bg-[#005e57] text-white text-xs sm:text-sm font-semibold shadow-xs hover:shadow-sm flex items-center gap-2 transition-all cursor-pointer"
                   >
                     <File className="w-4 h-4" />
                     <span>{t.chooseFile}</span>
@@ -224,20 +225,20 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
                     type="button"
                     id="take-photo-btn"
                     onClick={() => cameraInputRef.current?.click()}
-                    className="px-4 py-2 rounded-lg bg-white hover:bg-[#F1F5F9] text-[#1E293B] border border-[#CBD5E1] text-xs sm:text-sm font-semibold shadow-xs flex items-center gap-2 transition-colors cursor-pointer"
+                    className="px-4.5 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-[#081D2E] border border-slate-300 text-xs sm:text-sm font-semibold shadow-xs hover:shadow-sm flex items-center gap-2 transition-all cursor-pointer"
                   >
-                    <Camera className="w-4 h-4 text-[#0D9488]" />
+                    <Camera className="w-4 h-4 text-[#008278]" />
                     <span>{t.takePhoto}</span>
                   </button>
                 </div>
               </div>
             ) : (
               /* Selected File Preview Box */
-              <div className="border border-[#99F6E4] bg-[#F0FDFA] rounded-lg p-4">
+              <div className="border border-teal-200 bg-teal-50/50 rounded-2xl p-4 sm:p-5">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3.5 min-w-0">
                     {imagePreviewUrl ? (
-                      <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-slate-200 border border-slate-300 shrink-0">
+                      <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-slate-200 border border-slate-300 shrink-0 shadow-2xs">
                         <img
                           src={imagePreviewUrl}
                           alt="Report preview"
@@ -246,19 +247,19 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
                         />
                       </div>
                     ) : (
-                      <div className="w-14 h-14 rounded-lg bg-[#0D9488] text-white flex items-center justify-center shrink-0 shadow-xs">
+                      <div className="w-14 h-14 rounded-xl bg-[#008278] text-white flex items-center justify-center shrink-0 shadow-xs">
                         <FileText className="w-7 h-7" />
                       </div>
                     )}
 
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <p className="text-sm font-semibold text-[#1E293B] truncate max-w-[200px] sm:max-w-xs">
+                        <p className="text-sm font-bold text-[#081D2E] truncate max-w-[200px] sm:max-w-xs">
                           {selectedFile.name}
                         </p>
-                        <CheckCircle2 className="w-4 h-4 text-[#0D9488] shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-[#008278] shrink-0" />
                       </div>
-                      <p className="text-xs text-[#64748B] mt-0.5">
+                      <p className="text-xs text-slate-500 mt-0.5">
                         {formatFileSize(selectedFile.size)} • {t.readyForAnalysis}
                       </p>
                     </div>
@@ -269,7 +270,7 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
                       type="button"
                       onClick={handleRemove}
                       id="remove-file-button"
-                      className="px-3 py-1.5 rounded-lg border border-[#CBD5E1] bg-white hover:bg-[#F1F5F9] text-[#1E293B] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                      className="px-3.5 py-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-[#081D2E] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
                     >
                       <X className="w-3.5 h-3.5" />
                       <span>{t.changeFile}</span>
@@ -283,7 +284,7 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
             {inlineError && (
               <div
                 id="upload-inline-error"
-                className="mt-3 p-3.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm flex items-start gap-2.5"
+                className="mt-3.5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs sm:text-sm flex items-start gap-2.5"
               >
                 <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                 <div className="flex-1">
@@ -294,16 +295,16 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
             )}
 
             {/* Primary Action Analyze Button */}
-            <div className="mt-5">
+            <div className="mt-5 sm:mt-6">
               <button
                 type="button"
                 id="analyze-report-button"
                 disabled={!selectedFile || isAnalyzing}
                 onClick={onAnalyze}
-                className={`w-full py-3 px-6 rounded-lg font-semibold text-sm sm:text-base flex items-center justify-center gap-2 shadow-xs transition-all ${
+                className={`w-full py-3.5 px-6 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-sm hover:shadow-md transition-all ${
                   selectedFile && !isAnalyzing
-                    ? "bg-[#0D9488] hover:bg-[#0F766E] text-white cursor-pointer active:scale-[0.99]"
-                    : "bg-[#94A3B8] text-white cursor-not-allowed"
+                    ? "bg-[#008278] hover:bg-[#007068] active:bg-[#005e57] text-white cursor-pointer active:scale-[0.99]"
+                    : "bg-slate-300 text-slate-500 cursor-not-allowed"
                 }`}
               >
                 <span>{t.analyzeBtn}</span>
@@ -314,11 +315,11 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
         </div>
 
         {/* Privacy Note strip */}
-        <div className="text-xs text-[#64748B] p-4 bg-[#F1F5F9] border-t border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="text-xs text-slate-500 p-4 bg-slate-50/80 border-t border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#0D9488] shrink-0" />
+            <ShieldCheck className="w-4 h-4 text-[#008278] shrink-0" />
             <span>
-              <strong>{t.privacyTitle}:</strong>{" "}
+              <strong className="text-slate-700">{t.privacyTitle}:</strong>{" "}
               {currentUser ? t.privacyDescLoggedIn : t.privacyDescGuest}
             </span>
           </div>
@@ -327,7 +328,7 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
             <button
               type="button"
               onClick={() => onOpenAuth("login")}
-              className="inline-flex items-center gap-1 text-[#0D9488] font-semibold hover:underline cursor-pointer shrink-0"
+              className="inline-flex items-center gap-1 text-[#008278] font-bold hover:underline cursor-pointer shrink-0"
             >
               <LogIn className="w-3.5 h-3.5" />
               <span>{t.loginToSave}</span>
@@ -337,34 +338,34 @@ export const UploadZone: React.FC<UploadZoneProps> = ({
       </div>
 
       {/* Preset Sample Reports Section for Fast Testing */}
-      <div className="bg-white rounded-xl p-5 border border-[#E2E8F0] shadow-xs">
-        <div className="flex items-center gap-2 mb-2.5">
-          <Sparkles className="w-4 h-4 text-[#0D9488]" />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#64748B]">
+      <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)]">
+        <div className="flex items-center gap-2 mb-2">
+          <Sparkles className="w-4 h-4 text-[#008278]" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
             {t.quickSampleTitle}
           </h3>
         </div>
-        <p className="text-xs text-[#64748B] mb-3">
+        <p className="text-xs text-slate-500 mb-4">
           {t.quickSampleDesc}
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {sampleReports.map((sample, idx) => (
             <button
               key={idx}
               type="button"
               id={`sample-report-btn-${idx}`}
               onClick={() => onSelectSample(sample.data)}
-              className="text-left p-3.5 rounded-lg bg-[#FAFBFC] border border-[#E2E8F0] hover:border-[#0D9488] hover:bg-[#F0FDFA]/30 hover:shadow-xs transition-all group cursor-pointer"
+              className="text-left p-4 rounded-xl bg-slate-50/70 border border-slate-200/80 hover:border-[#008278] hover:bg-teal-50/30 hover:shadow-xs transition-all group cursor-pointer"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs sm:text-sm font-semibold text-[#1E293B] group-hover:text-[#0D9488]">
+                <span className="text-xs sm:text-sm font-bold text-[#081D2E] group-hover:text-[#008278] transition-colors">
                   {sample.label}
                 </span>
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-[#CCFBF1] text-[#0F766E]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200/80">
                   {t.trySample}
                 </span>
               </div>
-              <p className="text-[11px] text-[#64748B] mt-1">
+              <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
                 {sample.description} ({sample.data.reportInfo.length} {t.testsCount})
               </p>
             </button>

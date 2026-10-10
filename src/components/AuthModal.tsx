@@ -17,6 +17,8 @@ import {
 import { Language } from "../types";
 import { TRANSLATIONS } from "../i18n/translations";
 import { useAuth } from "../context/AuthContext";
+import { BrandLogo } from "./BrandLogo";
+import { BrandWordmark } from "./BrandWordmark";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -284,25 +286,24 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         </button>
 
         {/* Modal Header */}
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0D9488] to-[#0F766E] flex items-center justify-center text-white shadow-xs shrink-0">
-            {mode === "verification_pending" ? (
-              <Mail className="w-5 h-5" />
-            ) : mode === "forgot_password" ? (
-              <Lock className="w-5 h-5" />
-            ) : (
-              <ShieldCheck className="w-5 h-5" />
-            )}
-          </div>
-          <div>
-            <h3 className="text-base sm:text-lg font-bold text-[#1E293B] leading-tight">
-              {mode === "verification_pending"
-                ? t.verificationRequiredTitle
-                : mode === "forgot_password"
-                ? t.forgotPasswordTitle
-                : t.authModalTitle}
+        <div className="flex items-center gap-3.5 mb-5">
+          <BrandLogo size="lg" className="shadow-xs shrink-0 hover:scale-105 transition-transform" />
+          <div className="min-w-0">
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-tight flex items-baseline gap-1 flex-wrap">
+              {mode === "verification_pending" ? (
+                t.verificationRequiredTitle
+              ) : mode === "forgot_password" ? (
+                t.forgotPasswordTitle
+              ) : (
+                <>
+                  <BrandWordmark size="base" />
+                  <span className="text-slate-900 font-bold ml-1">
+                    {language === "hi" ? "खाता" : "Account"}
+                  </span>
+                </>
+              )}
             </h3>
-            <p className="text-xs text-[#64748B] mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               {mode === "verification_pending"
                 ? t.checkSpamNotice
                 : mode === "forgot_password"
@@ -314,7 +315,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Mode Tabs (only in login/signup mode) */}
         {(mode === "login" || mode === "signup") && (
-          <div className="flex items-center bg-[#F1F5F9] p-1 rounded-xl mb-5 border border-[#E2E8F0]">
+          <div className="flex items-center bg-slate-100/90 p-1 rounded-xl mb-5 border border-slate-200">
             <button
               type="button"
               onClick={() => {
@@ -324,8 +325,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               }}
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 mode === "login"
-                  ? "bg-white text-[#0D9488] shadow-xs"
-                  : "text-[#64748B] hover:text-[#1E293B]"
+                  ? "bg-white text-[#008278] shadow-xs"
+                  : "text-slate-500 hover:text-slate-900"
               }`}
             >
               {t.logInTab}
@@ -339,8 +340,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               }}
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 mode === "signup"
-                  ? "bg-white text-[#0D9488] shadow-xs"
-                  : "text-[#64748B] hover:text-[#1E293B]"
+                  ? "bg-white text-[#008278] shadow-xs"
+                  : "text-slate-500 hover:text-slate-900"
               }`}
             >
               {t.signUpTab}

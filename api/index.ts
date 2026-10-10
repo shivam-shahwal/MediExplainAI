@@ -159,7 +159,7 @@ function getGeminiClient(): GoogleGenAI {
 app.use(express.json({ limit: "20mb" }));
 
 // Health check route
-app.get(["/api/health", "/health", "/"], (req: Request, res: Response) => {
+app.get(["/api/health", "/health"], (req: Request, res: Response) => {
   res.json({
     status: "ok",
     timestamp: new Date().toISOString(),

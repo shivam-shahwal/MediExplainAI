@@ -15,6 +15,7 @@ import {
 import { Language } from "../types";
 import { TRANSLATIONS } from "../i18n/translations";
 import { useAuth } from "../context/AuthContext";
+import { BrandLogo } from "./BrandLogo";
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -133,15 +134,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         </button>
 
         {/* Title */}
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-10 h-10 rounded-xl bg-[#F0FDFA] text-[#0D9488] border border-[#99F6E4] flex items-center justify-center font-bold">
-            <Mail className="w-5 h-5" />
-          </div>
+        <div className="flex items-center gap-3.5 mb-5">
+          <BrandLogo size="md" className="shadow-xs shrink-0" />
           <div>
-            <h3 className="text-base sm:text-lg font-bold text-[#1E293B]">
+            <h3 className="text-base sm:text-lg font-bold text-[#081D2E]">
               {t.settingsTitle}
             </h3>
-            <p className="text-xs text-[#64748B]">
+            <p className="text-xs text-slate-500 mt-0.5">
               {t.accountInfo}
             </p>
           </div>

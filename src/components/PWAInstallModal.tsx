@@ -2,6 +2,7 @@ import React from "react";
 import { X, Share2, PlusSquare, Smartphone, Check, Download } from "lucide-react";
 import { Language } from "../types";
 import { TRANSLATIONS } from "../i18n/translations";
+import { BrandLogo } from "./BrandLogo";
 
 interface PWAInstallModalProps {
   isOpen: boolean;
@@ -41,15 +42,13 @@ export const PWAInstallModal: React.FC<PWAInstallModalProps> = ({
           <X className="w-5 h-5" />
         </button>
 
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-xl bg-[#CCFBF1] text-[#0D9488] flex items-center justify-center font-bold">
-            <Smartphone className="w-6 h-6" />
-          </div>
+        <div className="flex items-center gap-3.5 mb-5">
+          <BrandLogo size="lg" className="shadow-xs shrink-0" />
           <div>
-            <h3 className="text-base font-bold text-[#1E293B]">
+            <h3 className="text-base sm:text-lg font-bold text-[#081D2E]">
               {t.installApp}
             </h3>
-            <p className="text-xs text-[#64748B]">
+            <p className="text-xs text-slate-500 mt-0.5">
               {t.addToHome}
             </p>
           </div>
@@ -57,7 +56,7 @@ export const PWAInstallModal: React.FC<PWAInstallModalProps> = ({
 
         {canInstallPrompt ? (
           <div className="space-y-4">
-            <p className="text-xs text-[#64748B] leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               {t.pwaModalDesc}
             </p>
             <button
@@ -65,7 +64,7 @@ export const PWAInstallModal: React.FC<PWAInstallModalProps> = ({
                 onTriggerInstall();
                 onClose();
               }}
-              className="w-full py-2.5 rounded-lg bg-[#0D9488] hover:bg-[#0F766E] text-white text-sm font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
+              className="w-full py-3 rounded-xl bg-[#008278] hover:bg-[#007068] active:bg-[#005e57] text-white text-sm font-bold flex items-center justify-center gap-2 shadow-xs hover:shadow-sm transition-all cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>{t.pwaInstallBtn}</span>

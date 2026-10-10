@@ -19,24 +19,24 @@ export const DisclaimerBanner: React.FC<DisclaimerBannerProps> = ({
   return (
     <div
       id="medical-disclaimer-banner"
-      className={`w-full bg-[#FFFBEB] border border-[#FDE68A] rounded-xl p-4 text-[#92400E] shadow-xs space-y-2.5 ${
+      className={`w-full bg-amber-50/80 border border-amber-200/90 rounded-2xl p-4 sm:p-5 text-amber-900 shadow-2xs space-y-2.5 ${
         language === "hi" ? "font-hindi" : ""
       }`}
       role="alert"
     >
-      <div className="flex items-start gap-3">
-        <div className="p-1.5 rounded-lg bg-amber-100/90 text-[#92400E] shrink-0 mt-0.5">
+      <div className="flex items-start gap-3.5">
+        <div className="p-2 rounded-xl bg-amber-100 text-amber-900 shrink-0 mt-0.5 shadow-2xs">
           <AlertTriangle className="w-4 h-4" />
         </div>
         <div className="text-xs sm:text-sm leading-relaxed space-y-1.5 flex-1">
-          <p className="font-semibold text-amber-950">
+          <p className="font-bold text-amber-950">
             {t.disclaimerTitle}
           </p>
-          <p className="text-[#92400E]/95">
+          <p className="text-amber-900/90 leading-relaxed">
             {t.disclaimerP1}
           </p>
           {!compact && (
-            <p className="text-[#92400E]/90 text-xs">
+            <p className="text-amber-800/80 text-xs leading-relaxed">
               {t.disclaimerP2}
             </p>
           )}
@@ -44,8 +44,8 @@ export const DisclaimerBanner: React.FC<DisclaimerBannerProps> = ({
       </div>
 
       {currentUser && (
-        <div className="pt-2 border-t border-[#FDE68A]/80 flex items-center gap-1.5 text-[11px] text-[#92400E] font-medium">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#0D9488] shrink-0" />
+        <div className="pt-2.5 border-t border-amber-200/70 flex items-center gap-1.5 text-[11px] text-amber-900 font-semibold">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#008278] shrink-0" />
           <span>{t.disclaimerSavedNotice}</span>
         </div>
       )}

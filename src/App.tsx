@@ -15,6 +15,8 @@ import { TRANSLATIONS } from "./i18n/translations";
 import { SAMPLE_REPORTS_EN, SAMPLE_REPORTS_HI } from "./data/sampleReports";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { saveReportToHistory } from "./lib/reportsService";
+import { BrandLogo } from "./components/BrandLogo";
+import { BrandWordmark } from "./components/BrandWordmark";
 
 function MainAppContent() {
   const { currentUser, isEmailVerified } = useAuth();
@@ -177,9 +179,9 @@ function MainAppContent() {
       formData.append("language", language);
 
       const response = await fetch("/api/analyze-report", {
-        method: "POST",
-        body: formData,
-      });
+  method: "POST",
+  body: formData,
+});
 
       let data: any = null;
       const contentType = response.headers.get("content-type") || "";
@@ -274,7 +276,7 @@ function MainAppContent() {
   };
 
   return (
-    <div className={`min-h-screen bg-[#F0F7F9] flex flex-col font-sans text-[#1E293B] ${language === "hi" ? "font-hindi" : ""}`}>
+    <div className={`min-h-screen bg-slate-50/70 flex flex-col font-sans text-[#081D2E] ${language === "hi" ? "font-hindi" : ""}`}>
       {/* Top Application Header */}
       <Header
         currentLanguage={language}
@@ -392,18 +394,19 @@ function MainAppContent() {
       />
 
       {/* Persistent Clinical & Privacy Footer */}
-      <footer className="bg-white border-t border-[#E2E8F0] py-5 px-4 text-xs text-[#64748B] mt-auto print:hidden">
+      <footer className="bg-white/90 backdrop-blur-xs border-t border-slate-200/80 py-5 px-4 text-xs text-slate-500 mt-auto print:hidden">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <div className="flex items-center gap-2 text-[#64748B]">
-            <ShieldCheck className="w-4 h-4 text-[#0D9488] shrink-0" />
+          <div className="flex items-center gap-2 text-slate-500">
+            <ShieldCheck className="w-4 h-4 text-[#008278] shrink-0" />
             <span>
-              <strong>{t.zeroDataStorage}:</strong>{" "}
+              <strong className="text-slate-700">{t.zeroDataStorage}:</strong>{" "}
               {currentUser ? t.privacyDescLoggedIn : t.privacyDescGuest}
             </span>
           </div>
-          <div className="flex items-center gap-1.5 text-[#94A3B8]">
-            <HeartHandshake className="w-3.5 h-3.5 text-[#94A3B8]" />
-            <span>{t.footerBrand}</span>
+          <div className="flex items-center gap-2 text-slate-400">
+            <BrandLogo size="sm" className="opacity-90" />
+            <BrandWordmark size="sm" />
+            <span className="text-[11px] text-slate-400 font-medium">• {language === "hi" ? "शैक्षणिक उपकरण" : "Educational Tool"}</span>
           </div>
         </div>
       </footer>

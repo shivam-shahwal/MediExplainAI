@@ -18,6 +18,8 @@ import { DisclaimerBanner } from "./DisclaimerBanner";
 import { TRANSLATIONS, getRangeStatusLabel } from "../i18n/translations";
 import { useAuth } from "../context/AuthContext";
 import { getTestNutritionInfo } from "../data/nutritionData";
+import { BrandLogo } from "./BrandLogo";
+import { BrandWordmark } from "./BrandWordmark";
 
 function isGenericFiller(text: string | null | undefined): boolean {
   if (!text) return true;
@@ -102,15 +104,29 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
 
   return (
     <div className={`w-full space-y-6 pb-12 animate-in fade-in duration-300 ${language === "hi" ? "font-hindi" : ""}`}>
+      {/* Branded Header for Print View */}
+      <div className="hidden print:flex items-center justify-between pb-4 mb-4 border-b border-slate-300">
+        <div className="flex items-center gap-3">
+          <BrandLogo size="md" />
+          <BrandWordmark size="xl" />
+        </div>
+        <div className="text-right text-xs text-slate-500">
+          <p className="font-bold text-slate-800">{result.analyzedFileName || t.analyzedDocFallback}</p>
+          <p className="text-[11px] text-teal-700 font-semibold">{t.taglineBadge}</p>
+        </div>
+      </div>
+
       {/* Top Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-xs print:hidden">
-        <div className="flex items-center gap-2.5">
-          <FileCheck className="w-5 h-5 text-[#0D9488] shrink-0" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] print:hidden">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-[#008278] shrink-0 shadow-2xs">
+            <FileCheck className="w-5 h-5" />
+          </div>
           <div className="min-w-0">
-            <span className="text-[11px] font-semibold text-[#64748B] uppercase tracking-wider block">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
               {t.analysisComplete}
             </span>
-            <span className="text-sm font-bold text-[#1E293B] truncate block">
+            <span className="text-sm font-bold text-[#081D2E] truncate block">
               {result.analyzedFileName || t.analyzedDocFallback}
             </span>
           </div>
@@ -121,9 +137,9 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
             <button
               type="button"
               onClick={onOpenHistory}
-              className="px-3 py-2 rounded-lg bg-[#F0FDFA] hover:bg-[#CCFBF1] text-[#0F766E] border border-[#99F6E4] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3.5 py-2 rounded-xl bg-teal-50 hover:bg-teal-100/80 text-teal-800 border border-teal-200 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
             >
-              <BookmarkCheck className="w-3.5 h-3.5 text-[#0D9488]" />
+              <BookmarkCheck className="w-3.5 h-3.5 text-[#008278]" />
               <span>{t.viewInHistory}</span>
             </button>
           )}
@@ -132,17 +148,17 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
             type="button"
             id="print-report-button"
             onClick={handlePrint}
-            className="px-3.5 py-2 rounded-lg bg-[#F1F5F9] hover:bg-[#E2E8F0] text-[#1E293B] text-xs font-semibold flex items-center gap-1.5 transition-colors border border-[#E2E8F0] cursor-pointer"
+            className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#081D2E] text-xs font-semibold flex items-center gap-1.5 transition-colors border border-slate-200 cursor-pointer shadow-2xs"
             title={t.printSave}
           >
-            <Printer className="w-3.5 h-3.5 text-[#64748B]" />
+            <Printer className="w-3.5 h-3.5 text-slate-500" />
             <span>{t.printSave}</span>
           </button>
           <button
             type="button"
             id="analyze-another-button"
             onClick={onReset}
-            className="px-4 py-2 rounded-lg bg-[#0D9488] hover:bg-[#0F766E] text-white text-xs font-semibold shadow-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-4.5 py-2 rounded-xl bg-[#008278] hover:bg-[#007068] active:bg-[#005e57] text-white text-xs font-semibold shadow-xs hover:shadow-sm flex items-center gap-1.5 transition-all cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>{t.analyzeAnother}</span>

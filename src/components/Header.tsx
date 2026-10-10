@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Activity,
   Download,
   Smartphone,
   Languages,
@@ -16,6 +15,8 @@ import {
 import { Language } from "../types";
 import { TRANSLATIONS } from "../i18n/translations";
 import { useAuth } from "../context/AuthContext";
+import { BrandLogo } from "./BrandLogo";
+import { BrandWordmark } from "./BrandWordmark";
 
 interface HeaderProps {
   currentLanguage: Language;
@@ -49,22 +50,21 @@ export const Header: React.FC<HeaderProps> = ({
   const displayEmail = currentUser?.email || appUser?.email || "My Account";
 
   return (
-    <header className="bg-white border-b border-[#E2E8F0] sticky top-0 z-30 shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-2">
+    <header className="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-30 shadow-[0_1px_3px_rgba(0,0,0,0.03)] transition-all">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+        {/* Brand Area */}
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0D9488] to-[#0F766E] flex items-center justify-center text-white shadow-xs shrink-0">
-            <Activity className="w-5 h-5" />
-          </div>
+          <BrandLogo size="md" className="shadow-xs hover:scale-105 transition-transform" />
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-lg font-bold tracking-tight text-[#1E293B] leading-none">
-                {t.appTitle} <span className="text-[#0D9488]">{t.appTitleSuffix}</span>
+              <h1 className="leading-none m-0 p-0 inline-flex items-baseline">
+                <BrandWordmark size="lg" />
               </h1>
-              <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-[#CCFBF1] text-[#0F766E] whitespace-nowrap">
+              <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200/80 whitespace-nowrap shadow-2xs">
                 {t.taglineBadge}
               </span>
             </div>
-            <p className="text-xs text-[#64748B] hidden sm:block mt-0.5 truncate">
+            <p className="text-xs text-slate-500 hidden sm:block mt-1 truncate font-normal">
               {t.taglineSubtitle}
             </p>
           </div>
@@ -74,21 +74,21 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Language Switcher Toggle */}
           <div
             id="language-switcher-container"
-            className="flex items-center bg-[#F1F5F9] p-0.5 rounded-lg border border-[#CBD5E1]"
+            className="flex items-center bg-slate-100/90 p-0.5 rounded-lg border border-slate-200"
             role="group"
             aria-label="Language Selector"
           >
-            <div className="px-1.5 py-1 text-[#64748B] hidden xs:flex items-center">
+            <div className="px-1.5 py-1 text-slate-400 hidden xs:flex items-center">
               <Languages className="w-3.5 h-3.5" />
             </div>
             <button
               type="button"
               id="lang-toggle-en"
               onClick={() => onLanguageChange("en")}
-              className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer ${
+              className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
                 currentLanguage === "en"
-                  ? "bg-white text-[#0D9488] shadow-xs"
-                  : "text-[#64748B] hover:text-[#1E293B]"
+                  ? "bg-white text-[#008278] shadow-xs"
+                  : "text-slate-500 hover:text-slate-900"
               }`}
               title="English"
             >
@@ -98,10 +98,10 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               id="lang-toggle-hi"
               onClick={() => onLanguageChange("hi")}
-              className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer ${
+              className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
                 currentLanguage === "hi"
-                  ? "bg-[#0D9488] text-white shadow-xs"
-                  : "text-[#64748B] hover:text-[#1E293B]"
+                  ? "bg-[#008278] text-white shadow-xs"
+                  : "text-slate-500 hover:text-slate-900"
               }`}
               title="हिन्दी (Hindi)"
             >
@@ -116,13 +116,13 @@ export const Header: React.FC<HeaderProps> = ({
                 type="button"
                 id="user-menu-btn"
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all cursor-pointer ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all cursor-pointer shadow-2xs ${
                   !isEmailVerified
                     ? "bg-amber-50 hover:bg-amber-100 text-amber-900 border-amber-300"
-                    : "bg-[#F0FDFA] hover:bg-[#CCFBF1] text-[#0F766E] border-[#99F6E4]"
+                    : "bg-teal-50/70 hover:bg-teal-100/80 text-teal-800 border-teal-200"
                 }`}
               >
-                <User className={`w-3.5 h-3.5 ${!isEmailVerified ? "text-amber-600" : "text-[#0D9488]"}`} />
+                <User className={`w-3.5 h-3.5 ${!isEmailVerified ? "text-amber-600" : "text-teal-600"}`} />
                 <span className="text-[11px] max-w-[120px] sm:max-w-[170px] truncate">
                   {displayEmail}
                 </span>
@@ -138,16 +138,16 @@ export const Header: React.FC<HeaderProps> = ({
                     className="fixed inset-0 z-40"
                     onClick={() => setUserDropdownOpen(false)}
                   />
-                  <div className="absolute right-0 mt-1.5 w-60 bg-white rounded-xl shadow-lg border border-[#E2E8F0] p-1.5 z-50 animate-in fade-in zoom-in-95 duration-150">
-                    <div className="px-3 py-2 border-b border-[#F1F5F9] mb-1">
-                      <div className="text-[11px] text-[#94A3B8]">
+                  <div className="absolute right-0 mt-1.5 w-60 bg-white rounded-xl shadow-xl border border-slate-200 p-1.5 z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div className="px-3 py-2 border-b border-slate-100 mb-1">
+                      <div className="text-[11px] text-slate-400">
                         {t.loggedInAs}
                       </div>
-                      <div className="text-xs font-bold text-[#1E293B] truncate">
+                      <div className="text-xs font-bold text-slate-800 truncate">
                         {displayEmail}
                       </div>
                       {!isEmailVerified && (
-                        <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-bold">
+                        <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-bold">
                           <AlertCircle className="w-3 h-3 text-amber-600" />
                           <span>{t.unverifiedBadge}</span>
                         </div>
@@ -176,11 +176,11 @@ export const Header: React.FC<HeaderProps> = ({
                       }}
                       className={`w-full px-3 py-2 text-xs font-semibold rounded-lg flex items-center gap-2 transition-colors cursor-pointer ${
                         activeView === "history"
-                          ? "bg-[#F0FDFA] text-[#0D9488]"
-                          : "text-[#1E293B] hover:bg-[#F8FAFC]"
+                          ? "bg-teal-50 text-teal-700"
+                          : "text-slate-700 hover:bg-slate-50"
                       }`}
                     >
-                      <FolderClock className="w-4 h-4 text-[#0D9488]" />
+                      <FolderClock className="w-4 h-4 text-[#008278]" />
                       <span>{t.myReports}</span>
                     </button>
 
@@ -190,13 +190,13 @@ export const Header: React.FC<HeaderProps> = ({
                         setUserDropdownOpen(false);
                         onOpenSettings();
                       }}
-                      className="w-full px-3 py-2 text-xs font-semibold text-[#1E293B] hover:bg-[#F8FAFC] rounded-lg flex items-center gap-2 transition-colors cursor-pointer"
+                      className="w-full px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 rounded-lg flex items-center gap-2 transition-colors cursor-pointer"
                     >
-                      <Settings className="w-4 h-4 text-[#64748B]" />
+                      <Settings className="w-4 h-4 text-slate-400" />
                       <span>{t.accountSettings}</span>
                     </button>
 
-                    <div className="my-1 border-t border-[#F1F5F9]" />
+                    <div className="my-1 border-t border-slate-100" />
 
                     <button
                       type="button"
@@ -218,7 +218,7 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               id="header-login-btn"
               onClick={() => onOpenAuth("login")}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0D9488] hover:bg-[#0F766E] text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#008278] hover:bg-[#007068] active:bg-[#005e57] text-white text-xs font-semibold shadow-xs hover:shadow-sm transition-all cursor-pointer"
             >
               <LogIn className="w-3.5 h-3.5" />
               <span>{t.loginSignUp}</span>
@@ -230,9 +230,9 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               id="install-pwa-button"
               onClick={onTriggerInstall}
-              className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#1E293B] text-xs font-semibold border border-[#CBD5E1] transition-colors cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold border border-slate-200 transition-colors cursor-pointer"
             >
-              <Download className="w-3.5 h-3.5 text-[#0D9488]" />
+              <Download className="w-3.5 h-3.5 text-[#008278]" />
               <span>{t.installApp}</span>
             </button>
           ) : (
@@ -240,10 +240,10 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               id="pwa-help-button"
               onClick={onShowInstallHelp}
-              className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#F1F5F9] hover:bg-[#E2E8F0] text-[#1E293B] text-xs font-medium transition-colors border border-[#E2E8F0] cursor-pointer"
+              className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-medium transition-colors border border-slate-200 cursor-pointer"
               title={t.addToHome}
             >
-              <Smartphone className="w-3.5 h-3.5 text-[#0D9488]" />
+              <Smartphone className="w-3.5 h-3.5 text-[#008278]" />
               <span>{t.addToHome}</span>
             </button>
           )}

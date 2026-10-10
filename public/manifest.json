@@ -10,11 +10,21 @@
   "theme_color": "#0f766e",
   "icons": [
     {
+      "src": "/logo.png",
+      "sizes": "512x512 1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
       "src": "/icon.svg",
       "sizes": "192x192 512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ],
-  "categories": ["medical", "education", "utilities"]
+  "categories": [
+    "medical",
+    "education",
+    "utilities"
+  ]
 }
